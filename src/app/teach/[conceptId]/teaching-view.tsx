@@ -163,8 +163,14 @@ export default function TeachingView({ concept }: { concept: Concept }) {
           <span className="text-border">|</span>
           <h1 className="font-semibold text-foreground">{concept.title}</h1>
         </div>
-        <div className="text-sm text-muted-foreground">
-          {clearedCount}/{totalCount} corrected
+        <div className="flex items-center gap-2 text-sm">
+          <span className="font-medium text-foreground tabular-nums">{clearedCount}</span>
+          <span className="text-muted-foreground">/ {totalCount} corrected</span>
+          {clearedCount === totalCount && (
+            <span className="rounded-[4px] bg-accent px-2 py-0.5 text-xs font-medium text-accent-foreground">
+              All clear
+            </span>
+          )}
         </div>
       </header>
 
@@ -198,7 +204,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
                   className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-lg px-4 py-3 ${
+                    className={`max-w-[80%] rounded-[16px] px-4 py-3 ${
                       message.role === "user"
                         ? "bg-primary text-primary-foreground"
                         : "bg-muted text-card-foreground"
@@ -231,7 +237,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
                   placeholder="Explain the concept to your AI student..."
                   rows={2}
                   disabled={isStreaming || showResults}
-                  className="flex-1 resize-none rounded-lg border border-input bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-50"
+                  className="flex-1 resize-none rounded-[4px] border border-input bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-50"
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -243,7 +249,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
                     <button
                       onClick={runEvaluation}
                       disabled={isEvaluating || messages.length < 3 || isStreaming}
-                      className="flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted disabled:opacity-40 disabled:hover:bg-transparent"
+                      className="flex items-center gap-2 rounded-[4px] border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted disabled:opacity-40 disabled:hover:bg-transparent"
                     >
                       {isEvaluating && (
                         <span className="h-3 w-3 animate-spin rounded-full border-2 border-foreground/30 border-t-foreground" />
@@ -254,7 +260,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
                   <button
                     onClick={sendMessage}
                     disabled={!input.trim() || isStreaming || showResults}
-                    className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-40"
+                    className="rounded-[4px] bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-40"
                   >
                     {isStreaming ? "Teaching..." : "Send"}
                   </button>
@@ -276,7 +282,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
             {concept.misconceptions.map((m: Misconception) => (
               <div
                 key={m.id}
-                className="rounded-lg border border-border p-3 transition-colors"
+                className="rounded-[16px] border border-border p-3 transition-colors"
                 style={{
                   borderColor: badgeStates[m.id] === "green" ? "var(--success)" : undefined,
                   backgroundColor:
@@ -309,7 +315,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
       {/* Evaluation loading overlay */}
       {isEvaluating && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/30">
-          <div className="flex flex-col items-center gap-3 rounded-xl bg-card p-8 shadow-2xl">
+          <div className="flex flex-col items-center gap-3 rounded-[16px] bg-card p-8 shadow-[0_4px_8px_0_rgba(0,0,0,0.05)]">
             <span className="h-8 w-8 animate-spin rounded-full border-4 border-foreground/20 border-t-foreground" />
             <p className="text-sm font-medium text-card-foreground">Evaluating your teaching...</p>
           </div>
@@ -319,7 +325,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
       {/* Results modal */}
       {showResults && evaluation && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl bg-card p-6 shadow-2xl">
+          <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-[16px] bg-card p-6 shadow-[0_4px_8px_0_rgba(0,0,0,0.05)]">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold text-card-foreground">Teaching Score</h2>
               <button
@@ -331,8 +337,8 @@ export default function TeachingView({ concept }: { concept: Concept }) {
             </div>
 
             <div className="mt-4 flex items-center gap-4">
-              <div className="flex h-20 w-20 items-center justify-center rounded-full border-4 border-foreground/20">
-                <span className="text-2xl font-bold text-foreground">{evaluation.score}</span>
+              <div className="flex h-20 w-20 items-center justify-center rounded-[16px] border-4 border-foreground/20">
+                <span className="text-2xl font-bold tabular-nums text-foreground">{evaluation.score}</span>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">out of 100</p>
@@ -376,7 +382,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
             <div className="mt-6 flex gap-3">
               <Link
                 href="/"
-                className="flex-1 rounded-lg border border-border px-4 py-2.5 text-center text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                className="flex-1 rounded-[4px] border border-border px-4 py-2.5 text-center text-sm font-medium text-foreground transition-colors hover:bg-muted"
               >
                 Try another concept
               </Link>
@@ -387,7 +393,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
                   setBadgeStates(Object.fromEntries(concept.misconceptions.map((m) => [m.id, "red"])));
                   setEvaluation(null);
                 }}
-                className="flex-1 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                className="flex-1 rounded-[4px] bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
               >
                 Start over
               </button>
