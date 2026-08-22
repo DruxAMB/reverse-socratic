@@ -168,6 +168,24 @@ export default function TeachingView({ concept }: { concept: Concept }) {
         </div>
       </header>
 
+      {/* Mobile badge summary */}
+      <div className="flex items-center gap-2 border-b border-border px-4 py-2 sm:hidden">
+        {concept.misconceptions.map((m) => (
+          <span
+            key={m.id}
+            className="flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold text-white"
+            style={{
+              backgroundColor: badgeStates[m.id] === "green" ? "var(--success)" : "var(--destructive)",
+            }}
+          >
+            {badgeStates[m.id] === "green" ? "\u2713" : "!"}
+          </span>
+        ))}
+        <span className="ml-1 text-xs text-muted-foreground">
+          {clearedCount}/{totalCount} corrected
+        </span>
+      </div>
+
       <div className="flex flex-1 overflow-hidden">
         {/* Chat area */}
         <div className="flex flex-1 flex-col">
@@ -225,8 +243,11 @@ export default function TeachingView({ concept }: { concept: Concept }) {
                     <button
                       onClick={runEvaluation}
                       disabled={isEvaluating || messages.length < 3 || isStreaming}
-                      className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted disabled:opacity-40 disabled:hover:bg-transparent"
+                      className="flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted disabled:opacity-40 disabled:hover:bg-transparent"
                     >
+                      {isEvaluating && (
+                        <span className="h-3 w-3 animate-spin rounded-full border-2 border-foreground/30 border-t-foreground" />
+                      )}
                       {isEvaluating ? "Evaluating..." : "End & evaluate"}
                     </button>
                   )}
@@ -285,6 +306,16 @@ export default function TeachingView({ concept }: { concept: Concept }) {
         </aside>
       </div>
 
+      {/* Evaluation loading overlay */}
+      {isEvaluating && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/30">
+          <div className="flex flex-col items-center gap-3 rounded-xl bg-card p-8 shadow-2xl">
+            <span className="h-8 w-8 animate-spin rounded-full border-4 border-foreground/20 border-t-foreground" />
+            <p className="text-sm font-medium text-card-foreground">Evaluating your teaching...</p>
+          </div>
+        </div>
+      )}
+
       {/* Results modal */}
       {showResults && evaluation && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
@@ -295,7 +326,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
                 onClick={() => setShowResults(false)}
                 className="text-muted-foreground transition-colors hover:text-foreground"
               >
-                \u2715
+                {"\u2715"}
               </button>
             </div>
 
@@ -350,10 +381,15 @@ export default function TeachingView({ concept }: { concept: Concept }) {
                 Try another concept
               </Link>
               <button
-                onClick={() => setShowResults(false)}
+                onClick={() => {
+                  setShowResults(false);
+                  setMessages([{ id: "opening", role: "model", text: concept.openingLine }]);
+                  setBadgeStates(Object.fromEntries(concept.misconceptions.map((m) => [m.id, "red"])));
+                  setEvaluation(null);
+                }}
                 className="flex-1 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
               >
-                Keep teaching
+                Start over
               </button>
             </div>
           </div>
