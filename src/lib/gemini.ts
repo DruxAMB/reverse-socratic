@@ -1,4 +1,4 @@
-import type { Concept, Misconception } from "./concepts";
+import type { Concept } from "./concepts";
 
 const GEMINI_MODEL = "gemini-3.6-flash";
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
