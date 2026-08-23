@@ -159,11 +159,20 @@ export default function Home() {
               Each concept has real misconceptions students commonly hold. Choose one and start
               teaching.
             </p>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:auto-rows-fr">
               {concepts.map((concept, i) => {
-                // Masonry: first and last cards span 2 columns on large screens
-                const isWide = (i === 0 || i === concepts.length - 1) && concepts.length % 2 === 1;
-                const span = isWide ? "lg:col-span-2" : "";
+                // Masonry layout:
+                // Row 1: electricity (2 cols) + photosynthesis (1 col, spans 2 rows)
+                // Row 2: natural-selection (1 col) + climate (1 col) + [photosynthesis continues]
+                // Row 3: astronomy (3 cols, full width)
+                const span =
+                  i === 0
+                    ? "lg:col-span-2"
+                    : i === 1
+                      ? "lg:row-span-2"
+                      : i === concepts.length - 1
+                        ? "lg:col-span-3"
+                        : "";
                 return (
                   <Link
                     key={concept.id}
