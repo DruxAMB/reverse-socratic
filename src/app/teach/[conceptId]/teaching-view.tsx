@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
+import { ThinkingOrb } from "thinking-orbs";
 import type { Concept, Misconception } from "@/lib/concepts";
 import type { EvaluationResult } from "@/lib/gemini";
 
@@ -199,30 +200,46 @@ export default function TeachingView({ concept }: { concept: Concept }) {
           {/* Messages */}
           <div ref={scrollRef} className="flex-1 overflow-y-auto px-6 py-6">
             <div className="mx-auto flex max-w-2xl flex-col gap-4">
-              {messages.map((message) => (
-                <div
-                  key={message.id}
-                  className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
-                >
+              {messages.map((message) => {
+                const isLastModel =
+                  message.role === "model" &&
+                  isStreaming &&
+                  message.id === messages[messages.length - 1]?.id;
+                return (
                   <div
-                    className={`max-w-[80%] rounded-[16px] border-2 px-4 py-3 ${
-                      message.role === "user"
-                        ? "border-primary bg-primary text-primary-foreground"
-                        : "border-border bg-muted text-card-foreground"
-                    }`}
+                    key={message.id}
+                    className={`flex items-start gap-2 ${message.role === "user" ? "justify-end" : "justify-start"}`}
                   >
-                    <div className="mb-1 text-xs font-bold opacity-80">
-                      {message.role === "user" ? "You" : "AI Student"}
+                    {message.role === "model" && (
+                      <div className="mt-1 shrink-0">
+                        <ThinkingOrb
+                          state={isLastModel ? "working" : "breathing"}
+                          size={20}
+                          theme="light"
+                          paused={showResults}
+                        />
+                      </div>
+                    )}
+                    <div
+                      className={`max-w-[80%] rounded-[16px] border-2 px-4 py-3 ${
+                        message.role === "user"
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-border bg-muted text-card-foreground"
+                      }`}
+                    >
+                      <div className="mb-1 text-xs font-bold opacity-80">
+                        {message.role === "user" ? "You" : "AI Student"}
+                      </div>
+                      <p className="whitespace-pre-wrap text-sm leading-relaxed">
+                        {message.text}
+                        {isLastModel && (
+                          <span className="ml-0.5 inline-block h-4 w-1.5 animate-pulse bg-current align-middle" />
+                        )}
+                      </p>
                     </div>
-                    <p className="whitespace-pre-wrap text-sm leading-relaxed">
-                      {message.text}
-                      {message.role === "model" && isStreaming && message.id === messages[messages.length - 1]?.id && (
-                        <span className="ml-0.5 inline-block h-4 w-1.5 animate-pulse bg-current align-middle" />
-                      )}
-                    </p>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
@@ -317,9 +334,9 @@ export default function TeachingView({ concept }: { concept: Concept }) {
       {/* Evaluation loading overlay */}
       {isEvaluating && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/30">
-          <div className="flex flex-col items-center gap-3 rounded-[16px] border-2 border-border bg-card p-8 shadow-[0_4px_8px_0_rgba(0,0,0,0.05)]">
-            <span className="h-8 w-8 animate-spin rounded-full border-4 border-foreground/20 border-t-foreground" />
-            <p className="text-sm font-medium text-card-foreground">Evaluating your teaching...</p>
+          <div className="flex flex-col items-center gap-4 rounded-[16px] border-2 border-border bg-card p-10 shadow-[0_4px_8px_0_rgba(0,0,0,0.05)]">
+            <ThinkingOrb state="solving" size={64} theme="light" />
+            <p className="text-sm font-bold text-card-foreground">Evaluating your teaching...</p>
           </div>
         </div>
       )}
