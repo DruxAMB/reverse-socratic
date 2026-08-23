@@ -174,12 +174,12 @@ export default function TeachingView({ concept }: { concept: Concept }) {
         </div>
       </header>
 
-      {/* Mobile badge summary */}
+      {/* Mobile badge summary — 4px squares, not rounded-full */}
       <div className="flex items-center gap-2 border-b border-border px-4 py-2 sm:hidden">
         {concept.misconceptions.map((m) => (
           <span
             key={m.id}
-            className="flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold text-white"
+            className="flex h-6 w-6 items-center justify-center rounded-[4px] text-xs font-bold text-white"
             style={{
               backgroundColor: badgeStates[m.id] === "green" ? "var(--success)" : "var(--destructive)",
             }}
@@ -204,10 +204,10 @@ export default function TeachingView({ concept }: { concept: Concept }) {
                   className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-[16px] px-4 py-3 ${
+                    className={`max-w-[80%] px-4 py-3 ${
                       message.role === "user"
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-card-foreground"
+                        ? "rounded-[4px] bg-primary text-primary-foreground"
+                        : "rounded-[16px] bg-muted text-card-foreground"
                     }`}
                   >
                     <div className="mb-1 text-xs font-medium opacity-60">
@@ -287,12 +287,12 @@ export default function TeachingView({ concept }: { concept: Concept }) {
                 style={{
                   borderColor: badgeStates[m.id] === "green" ? "var(--success)" : undefined,
                   backgroundColor:
-                    badgeStates[m.id] === "green" ? "color-mix(in srgb, var(--success) 8%, transparent)" : undefined,
+                    badgeStates[m.id] === "green" ? "rgba(12, 140, 94, 0.06)" : undefined,
                 }}
               >
                 <div className="flex items-center gap-2">
                   <span
-                    className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
+                    className="flex h-5 w-5 shrink-0 items-center justify-center rounded-[4px] text-xs font-bold text-white"
                     style={{
                       backgroundColor:
                         badgeStates[m.id] === "green" ? "var(--success)" : "var(--destructive)",
@@ -316,7 +316,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
       {/* Evaluation loading overlay */}
       {isEvaluating && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/30">
-          <div className="flex flex-col items-center gap-3 rounded-[16px] bg-card p-8 shadow-[0_4px_8px_0_rgba(0,0,0,0.05)]">
+          <div className="flex flex-col items-center gap-3 rounded-[16px] bg-card p-8" style={{ boxShadow: "var(--shadow-card)" }}>
             <span className="h-8 w-8 animate-spin rounded-full border-4 border-foreground/20 border-t-foreground" />
             <p className="text-sm font-medium text-card-foreground">Evaluating your teaching...</p>
           </div>
@@ -326,7 +326,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
       {/* Results modal */}
       {showResults && evaluation && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-[16px] bg-card p-6 shadow-[0_4px_8px_0_rgba(0,0,0,0.05)]">
+          <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-[16px] bg-card p-6" style={{ boxShadow: "var(--shadow-card)" }}>
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold text-card-foreground">Teaching Score</h2>
               <button
@@ -339,7 +339,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
             </div>
 
             <div className="mt-4 flex items-center gap-4">
-              <div className="flex h-20 w-20 items-center justify-center rounded-[16px] border-4 border-foreground/20">
+              <div className="flex h-20 w-20 items-center justify-center rounded-[16px] border border-border">
                 <span className="text-2xl font-bold tabular-nums text-foreground">{evaluation.score}</span>
               </div>
               <div>

@@ -1,44 +1,49 @@
 @import "tailwindcss";
 
-/* Style system: adapted from Mintlify (styles.refero.design)
-   Monochrome discipline: white canvas, near-black text, one green accent.
-   Square geometry: 4px buttons/inputs, 16px cards.
-   Shadows whispered at 3-5% opacity. No pill buttons. */
+/* Style system: Mintlify (https://styles.refero.design/style/80d7ef36-ed7e-48bb-b558-f772eb40106f)
+   Faithfully applied — monochrome discipline, one green accent, square geometry.
+   Values are exact from the DESIGN.md spec, not approximations. */
 
 :root {
-  /* Neutrals — Mintlify-derived */
-  --background: #ffffff;
-  --foreground: #000000;
-  --card: #ffffff;
-  --card-foreground: #000000;
-  --muted: #f2f2f2;
-  --muted-foreground: #6e6a69;
-  --border: #dddddd;
-  --input: #dddddd;
-  --ring: #0d9f6e;
+  /* Neutrals — exact Mintlify values */
+  --background: #ffffff;          /* Paper White — page canvas */
+  --foreground: #000000;          /* True Black — body text */
+  --card: #ffffff;                /* Paper White — card surfaces */
+  --card-foreground: #08090a;     /* Ink Black — headings on cards */
+  --muted: #f2f2f2;               /* Mist Gray — subtle dividers, low-emphasis bg */
+  --muted-foreground: #6e6a69;    /* derived from Mist Gray for readable secondary text */
+  --border: #dddddd;              /* Cloud Gray — input borders, card hover outlines */
+  --input: #dddddd;               /* Cloud Gray — input borders */
+  --ring: #0c8c5e;                /* Mint Green — focus ring */
 
-  /* Accent — shifted from Mintlify #0c8c5e to #0d9f6e for distinction */
-  --primary: #08090a;
-  --primary-foreground: #ffffff;
-  --secondary: #f2f2f2;
+  /* Accent — exact Mint Green, used sparingly */
+  --primary: #08090a;             /* Ink Black — filled button background */
+  --primary-foreground: #ffffff;  /* Paper White — button text on dark fills */
+  --secondary: #f2f2f2;           /* Mist Gray — secondary surfaces */
   --secondary-foreground: #08090a;
-  --accent: #0d9f6e;
+  --accent: #0c8c5e;              /* Mint Green — the only chromatic accent */
   --accent-foreground: #ffffff;
 
-  /* State colors */
-  --destructive: #ef4444;
+  /* State feedback only (skill rule: --destructive, --success for state, not accent) */
+  --destructive: #dc2626;         /* red for misconception/unresolved state only */
   --destructive-foreground: #ffffff;
-  --success: #0d9f6e;
+  --success: #0c8c5e;             /* Mint Green — corrected state IS the accent */
   --success-foreground: #ffffff;
 
-  /* Shape — square system */
-  --radius: 4px;
-  --radius-card: 16px;
+  /* Shape — square system, exact from spec */
+  --radius: 4px;                  /* tags, inputs, buttons */
+  --radius-card: 16px;            /* cards */
+  --radius-large: 24px;           /* large containers */
 
-  /* Elevation — whispered shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 2px 4px 0 rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 4px 8px 0 rgba(0, 0, 0, 0.05);
+  /* Elevation — whispered shadows, exact from spec */
+  --shadow-button: 0px 2px 4px 0px rgba(0, 0, 0, 0.03);
+  --shadow-card: 0px 2px 4px 0px rgba(0, 0, 0, 0.05);
+
+  /* Layout — exact from spec */
+  --max-width: 1200px;
+  --section-gap: 80px;
+  --card-padding: 24px;
+  --element-gap: 12px;
 }
 
 @theme inline {
@@ -61,42 +66,24 @@
   --color-destructive-foreground: var(--destructive-foreground);
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-inter);
   --radius-sm: 4px;
   --radius-md: 4px;
   --radius-lg: 16px;
-  --radius-xl: 16px;
+  --radius-xl: 24px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #08090a;
-    --foreground: #ededed;
-    --card: #0e0f11;
-    --card-foreground: #ededed;
-    --muted: #1a1b1e;
-    --muted-foreground: #9a9796;
-    --border: #2a2b2e;
-    --input: #2a2b2e;
-    --ring: #0d9f6e;
-    --primary: #ededed;
-    --primary-foreground: #08090a;
-    --secondary: #1a1b1e;
-    --secondary-foreground: #ededed;
-    --accent: #0d9f6e;
-    --accent-foreground: #ffffff;
-    --destructive: #ef4444;
-    --destructive-foreground: #ffffff;
-    --success: #0d9f6e;
-    --success-foreground: #ffffff;
-  }
+/* Force light theme — Mintlify: "no page background other than white" */
+:root {
+  color-scheme: light;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  font-feature-settings: "ss01" on, "cv11" on;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -115,4 +102,12 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Hero reveal — initial state for server-rendered HTML.
+   GSAP animates from this to opacity:1, y:0.
+   If JS fails or is disabled, noscript fallback below restores visibility. */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
 }
