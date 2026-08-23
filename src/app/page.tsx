@@ -178,7 +178,7 @@ export default function Home() {
                     key={concept.id}
                     data-picker-item
                     href={`/teach/${concept.id}`}
-                    className={`group relative flex flex-col justify-end overflow-hidden rounded-[16px] border-2 border-border bg-card p-5 transition-all hover:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:translate-y-0.5 ${span}`}
+                    className={`group relative flex flex-col justify-end overflow-hidden rounded-[16px] border-2 border-border bg-card p-5 shadow-[0_8px_24px_-4px_rgba(0,0,0,0.12),0_4px_12px_-2px_rgba(0,0,0,0.08)] transition-all hover:border-primary hover:shadow-[0_16px_48px_-8px_rgba(0,0,0,0.18),0_8px_24px_-4px_rgba(0,0,0,0.12)] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:translate-y-0.5 ${span}`}
                   >
                     {/* Watermark icon — large, faded, positioned in the background */}
                     <div className="pointer-events-none absolute -right-6 -top-6 opacity-15 transition-opacity group-hover:opacity-25">
