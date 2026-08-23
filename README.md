@@ -94,6 +94,13 @@ The Prometheus August AI Challenge — an educational AI/ML hackathon.
 
 MIT — see [LICENSE](LICENSE)
 
+## Third-party licences
+
+- **GSAP** (`gsap`, `@gsap/react`) — GreenSock standard "no charge" licence. Free for commercial use including all formerly Club-only plugins (SplitText, ScrollTrigger, etc.). Not MIT; the GSAP licence covers the library, not this project's source.
+- **Next.js** — MIT
+- **Tailwind CSS** — MIT
+- **React** — MIT
+
 ## Acknowledgments
 
 - Design system adapted from [Mintlify](https://styles.refero.design/style/80d7ef36-ed7e-48bb-b558-f772eb40106f) via Refero Styles
