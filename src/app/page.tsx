@@ -5,18 +5,13 @@ import { concepts } from "@/lib/concepts";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+import { AnimatedConceptIcon } from "@/components/animated-concept-icon";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(useGSAP);
 }
 
-const iconMap: Record<string, string> = {
-  bolt: "\u26A1",
-  leaf: "\uD83C\uDF3F",
-  dna: "\uD83E\uDCEC",
-  sky: "\uD83C\uDF2C\uFE0F",
-  sun: "\u2600\uFE0F",
-};
+const iconNames = ["bolt", "leaf", "dna", "sky", "sun"] as const;
 
 export default function Home() {
   const [revealed, setRevealed] = useState(false);
@@ -173,9 +168,7 @@ export default function Home() {
                   className="group flex flex-col gap-3 rounded-[16px] border-2 border-border bg-card p-5 transition-all hover:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:translate-y-0.5"
                 >
                   <div className="flex items-start justify-between">
-                    <span className="text-3xl" aria-hidden="true">
-                      {iconMap[concept.icon] ?? "\uD83D\uDCDA"}
-                    </span>
+                    <AnimatedConceptIcon name={concept.icon as typeof iconNames[number]} size={48} />
                     <span className="rounded-[12px] border-2 border-border bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground">
                       {concept.category}
                     </span>
