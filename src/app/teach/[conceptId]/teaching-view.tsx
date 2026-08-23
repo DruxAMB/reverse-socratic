@@ -14,6 +14,16 @@ type Message = {
 
 type BadgeState = "red" | "green";
 
+function AnimatedDots() {
+  return (
+    <span className="inline-flex gap-0.5">
+      <span className="animate-dot-1">.</span>
+      <span className="animate-dot-2">.</span>
+      <span className="animate-dot-3">.</span>
+    </span>
+  );
+}
+
 export default function TeachingView({ concept }: { concept: Concept }) {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -24,6 +34,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
   ]);
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
+  const [isThinking, setIsThinking] = useState(false);
   const [badgeStates, setBadgeStates] = useState<Record<string, BadgeState>>(
     Object.fromEntries(concept.misconceptions.map((m) => [m.id, "red"]))
   );
@@ -52,6 +63,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
 
     const aiMessageId = crypto.randomUUID();
     setMessages((prev) => [...prev, { id: aiMessageId, role: "model", text: "" }]);
+    setIsThinking(true);
 
     try {
       const response = await fetch("/api/chat", {
@@ -66,6 +78,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
       const decoder = new TextDecoder();
       let buffer = "";
       let fullText = "";
+      let firstTokenReceived = false;
 
       if (reader) {
         while (true) {
@@ -83,6 +96,10 @@ export default function TeachingView({ concept }: { concept: Concept }) {
               try {
                 const parsed = JSON.parse(data);
                 if (parsed.text) {
+                  if (!firstTokenReceived) {
+                    firstTokenReceived = true;
+                    setIsThinking(false);
+                  }
                   fullText += parsed.text;
                   setMessages((prev) =>
                     prev.map((m) => (m.id === aiMessageId ? { ...m, text: fullText } : m))
@@ -105,6 +122,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
         )
       );
     } finally {
+      setIsThinking(false);
       setIsStreaming(false);
       inputRef.current?.focus();
     }
@@ -205,6 +223,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
                   message.role === "model" &&
                   isStreaming &&
                   message.id === messages[messages.length - 1]?.id;
+                const showThinking = isLastModel && isThinking && !message.text;
                 return (
                   <div
                     key={message.id}
@@ -213,7 +232,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
                     {message.role === "model" && (
                       <div className="mt-1 shrink-0">
                         <ThinkingOrb
-                          state={isLastModel ? "working" : "breathing"}
+                          state={showThinking ? "searching" : isLastModel ? "working" : "breathing"}
                           size={20}
                           theme="light"
                           paused={showResults}
@@ -230,16 +249,39 @@ export default function TeachingView({ concept }: { concept: Concept }) {
                       <div className="mb-1 text-xs font-bold opacity-80">
                         {message.role === "user" ? "You" : "AI Student"}
                       </div>
-                      <p className="whitespace-pre-wrap text-sm leading-relaxed">
-                        {message.text}
-                        {isLastModel && (
-                          <span className="ml-0.5 inline-block h-4 w-1.5 animate-pulse bg-current align-middle" />
-                        )}
-                      </p>
+                      {showThinking ? (
+                        <p className="text-sm font-medium text-muted-foreground">
+                          Thinking
+                          <AnimatedDots />
+                        </p>
+                      ) : (
+                        <p className="whitespace-pre-wrap text-sm leading-relaxed">
+                          {message.text}
+                          {isLastModel && (
+                            <span className="ml-0.5 inline-block h-4 w-1.5 animate-pulse bg-current align-middle" />
+                          )}
+                        </p>
+                      )}
                     </div>
                   </div>
                 );
               })}
+
+              {/* Listening indicator — shows when user is typing and AI isn't responding */}
+              {input.trim() && !isStreaming && !showResults && (
+                <div className="flex items-start gap-2 justify-start">
+                  <div className="mt-1 shrink-0">
+                    <ThinkingOrb state="listening" size={20} theme="light" />
+                  </div>
+                  <div className="max-w-[80%] rounded-[16px] border-2 border-border bg-muted px-4 py-3 text-card-foreground">
+                    <div className="mb-1 text-xs font-bold opacity-80">AI Student</div>
+                    <p className="text-sm font-medium text-muted-foreground">
+                      I am listening attentively
+                      <AnimatedDots />
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 

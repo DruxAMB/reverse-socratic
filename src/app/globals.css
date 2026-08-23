@@ -89,3 +89,13 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Animated dots for thinking/listening indicators */
+@keyframes dot-pulse {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+
+.animate-dot-1 { animation: dot-pulse 1.4s infinite; animation-delay: 0s; }
+.animate-dot-2 { animation: dot-pulse 1.4s infinite; animation-delay: 0.2s; }
+.animate-dot-3 { animation: dot-pulse 1.4s infinite; animation-delay: 0.4s; }
