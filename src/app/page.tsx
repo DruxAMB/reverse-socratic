@@ -159,33 +159,48 @@ export default function Home() {
               Each concept has real misconceptions students commonly hold. Choose one and start
               teaching.
             </p>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {concepts.map((concept) => (
-                <Link
-                  key={concept.id}
-                  data-picker-item
-                  href={`/teach/${concept.id}`}
-                  className="group relative flex flex-col gap-3 overflow-visible rounded-[16px] border-2 border-border bg-card p-5 pt-8 transition-all hover:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:translate-y-0.5"
-                >
-                  <div className="absolute -top-6 -right-3 h-24 w-24">
-                    <AnimatedConceptIcon
-                      name={concept.icon as typeof iconNames[number]}
-                      size={96}
-                    />
-                  </div>
-                  <span className="w-fit rounded-[12px] border-2 border-border bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground">
-                    {concept.category}
-                  </span>
-                  <div>
-                    <h3 className="text-lg font-bold text-card-foreground">{concept.title}</h3>
-                    <p className="mt-1 text-sm text-muted-foreground">{concept.subtitle}</p>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm font-bold text-primary transition-transform group-hover:translate-x-0.5">
-                    {concept.misconceptions.length} misconceptions to correct
-                    <span>&rarr;</span>
-                  </div>
-                </Link>
-              ))}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {concepts.map((concept, i) => {
+                // Masonry: first and last cards span 2 columns on large screens
+                const isWide = (i === 0 || i === concepts.length - 1) && concepts.length % 2 === 1;
+                const span = isWide ? "lg:col-span-2" : "";
+                return (
+                  <Link
+                    key={concept.id}
+                    data-picker-item
+                    href={`/teach/${concept.id}`}
+                    className={`group relative flex flex-col justify-end overflow-hidden rounded-[16px] border-2 border-border bg-card p-5 transition-all hover:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:translate-y-0.5 ${span}`}
+                  >
+                    {/* Watermark icon — large, faded, positioned in the background */}
+                    <div className="pointer-events-none absolute -right-6 -top-6 opacity-15 transition-opacity group-hover:opacity-25">
+                      <AnimatedConceptIcon
+                        name={concept.icon as typeof iconNames[number]}
+                        size={140}
+                      />
+                    </div>
+
+                    {/* Small live icon in the content flow */}
+                    <div className="relative mb-3">
+                      <AnimatedConceptIcon
+                        name={concept.icon as typeof iconNames[number]}
+                        size={40}
+                      />
+                    </div>
+
+                    <span className="relative w-fit rounded-[12px] border-2 border-border bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground">
+                      {concept.category}
+                    </span>
+                    <h3 className="relative mt-3 text-lg font-bold text-card-foreground">
+                      {concept.title}
+                    </h3>
+                    <p className="relative mt-1 text-sm text-muted-foreground">{concept.subtitle}</p>
+                    <div className="relative mt-4 flex items-center gap-2 text-sm font-bold text-primary transition-transform group-hover:translate-x-0.5">
+                      {concept.misconceptions.length} misconceptions to correct
+                      <span>&rarr;</span>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
 
             {/* How it works */}
