@@ -150,20 +150,20 @@ export default function TeachingView({ concept }: { concept: Concept }) {
   const totalCount = concept.misconceptions.length;
 
   return (
-    <div className="flex h-screen flex-col bg-background">
+    <div className="flex h-[100dvh] flex-col bg-background">
       {/* Header */}
       <header className="flex items-center justify-between border-b border-border px-6 py-3">
         <div className="flex items-center gap-3">
           <Link
             href="/"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-[4px]"
           >
             &larr; All concepts
           </Link>
           <span className="text-border">|</span>
           <h1 className="font-semibold text-foreground">{concept.title}</h1>
         </div>
-        <div className="flex items-center gap-2 text-sm">
+        <div className="flex items-center gap-2 text-sm" aria-live="polite" aria-atomic="true">
           <span className="font-medium text-foreground tabular-nums">{clearedCount}</span>
           <span className="text-muted-foreground">/ {totalCount} corrected</span>
           {clearedCount === totalCount && (
@@ -237,7 +237,8 @@ export default function TeachingView({ concept }: { concept: Concept }) {
                   placeholder="Explain the concept to your AI student..."
                   rows={2}
                   disabled={isStreaming || showResults}
-                  className="flex-1 resize-none rounded-[4px] border border-input bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-50"
+                  aria-label="Teaching message input"
+                  className="flex-1 resize-none rounded-[4px] border border-input bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus-visible:ring-offset-2 disabled:opacity-50"
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -249,7 +250,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
                     <button
                       onClick={runEvaluation}
                       disabled={isEvaluating || messages.length < 3 || isStreaming}
-                      className="flex items-center gap-2 rounded-[4px] border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted disabled:opacity-40 disabled:hover:bg-transparent"
+                      className="flex items-center gap-2 rounded-[4px] border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-40 disabled:hover:bg-transparent"
                     >
                       {isEvaluating && (
                         <span className="h-3 w-3 animate-spin rounded-full border-2 border-foreground/30 border-t-foreground" />
@@ -260,7 +261,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
                   <button
                     onClick={sendMessage}
                     disabled={!input.trim() || isStreaming || showResults}
-                    className="rounded-[4px] bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-40"
+                    className="rounded-[4px] bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-40"
                   >
                     {isStreaming ? "Teaching..." : "Send"}
                   </button>
@@ -330,7 +331,8 @@ export default function TeachingView({ concept }: { concept: Concept }) {
               <h2 className="text-xl font-bold text-card-foreground">Teaching Score</h2>
               <button
                 onClick={() => setShowResults(false)}
-                className="text-muted-foreground transition-colors hover:text-foreground"
+                aria-label="Close results"
+                className="text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-[4px]"
               >
                 {"\u2715"}
               </button>
@@ -382,7 +384,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
             <div className="mt-6 flex gap-3">
               <Link
                 href="/"
-                className="flex-1 rounded-[4px] border border-border px-4 py-2.5 text-center text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                className="flex-1 rounded-[4px] border border-border px-4 py-2.5 text-center text-sm font-medium text-foreground transition-colors hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               >
                 Try another concept
               </Link>
@@ -393,7 +395,7 @@ export default function TeachingView({ concept }: { concept: Concept }) {
                   setBadgeStates(Object.fromEntries(concept.misconceptions.map((m) => [m.id, "red"])));
                   setEvaluation(null);
                 }}
-                className="flex-1 rounded-[4px] bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                className="flex-1 rounded-[4px] bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               >
                 Start over
               </button>

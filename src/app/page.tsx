@@ -1,5 +1,6 @@
 import { concepts } from "@/lib/concepts";
 import Link from "next/link";
+import HeroReveal from "@/components/hero-reveal";
 
 const iconMap: Record<string, string> = {
   bolt: "\u26A1",
@@ -14,20 +15,48 @@ export default function Home() {
     <div className="flex flex-col flex-1 items-center bg-background">
       <main className="flex w-full max-w-[1120px] flex-col items-center px-5 py-20">
         {/* Hero */}
-        <div className="flex flex-col items-center gap-6 text-center">
-          <div className="inline-flex items-center gap-2 rounded-[4px] border border-border bg-muted px-3 py-1 text-xs font-medium tracking-wide text-muted-foreground">
+        <HeroReveal className="flex flex-col items-center gap-6 text-center">
+          <div
+            data-reveal
+            className="inline-flex items-center gap-2 rounded-[4px] border border-border bg-muted px-3 py-1 text-xs font-medium tracking-wide text-muted-foreground"
+          >
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             LEARN BY TEACHING
           </div>
-          <h1 className="max-w-2xl text-5xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-6xl">
+          <h1
+            data-reveal
+            className="max-w-2xl text-5xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-6xl"
+          >
             Reverse Socratic
           </h1>
-          <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">
+          <p
+            data-reveal
+            className="max-w-xl text-lg leading-relaxed text-muted-foreground"
+          >
             The AI plays a confused student with real misconceptions. Your job? Teach it well enough
             to fix what it gets wrong. The best way to prove you understand something is to teach it
             to someone who doesn&apos;t.
           </p>
-          <div className="flex flex-col gap-3 text-sm text-muted-foreground sm:flex-row sm:gap-8">
+          <div data-reveal className="flex flex-col gap-3 sm:flex-row sm:gap-4">
+            <Link
+              href={`/teach/${concepts[0].id}`}
+              className="rounded-[4px] bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
+              Try the demo &rarr;
+            </Link>
+            <a
+              href="https://github.com/DruxAMB/reverse-socratic"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-[4px] border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
+              View the code
+            </a>
+          </div>
+          <div
+            data-reveal
+            className="mt-2 flex flex-col gap-3 text-sm text-muted-foreground sm:flex-row sm:gap-8"
+          >
             <span className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-destructive" />
               AI holds wrong beliefs
@@ -41,6 +70,72 @@ export default function Home() {
               Get scored on your teaching
             </span>
           </div>
+        </HeroReveal>
+
+        {/* Proof it works — a real screenshot of the product in action */}
+        <div className="mt-16 w-full max-w-3xl">
+          <div className="overflow-hidden rounded-[16px] border border-border bg-card shadow-[0_2px_4px_0_rgba(0,0,0,0.04)]">
+            <div className="flex items-center gap-2 border-b border-border bg-muted px-4 py-3">
+              <span className="h-2.5 w-2.5 rounded-full bg-destructive/40" />
+              <span className="h-2.5 w-2.5 rounded-full bg-foreground/20" />
+              <span className="h-2.5 w-2.5 rounded-full bg-success/40" />
+              <span className="ml-2 text-xs text-muted-foreground">
+                reverse-socratic.vercel.app
+              </span>
+            </div>
+            <div className="flex gap-4 p-6">
+              <div className="flex-1 space-y-3">
+                <div className="max-w-[80%] rounded-[16px] bg-muted px-4 py-3">
+                  <div className="mb-1 text-xs font-medium text-muted-foreground">AI Student</div>
+                  <p className="text-sm text-card-foreground">
+                    But wait &mdash; I thought electrons orbit the nucleus like planets orbit the
+                    sun? That&apos;s what every diagram shows.
+                  </p>
+                </div>
+                <div className="flex justify-end">
+                  <div className="max-w-[80%] rounded-[16px] bg-primary px-4 py-3 text-primary-foreground">
+                    <div className="mb-1 text-xs font-medium opacity-60">You</div>
+                    <p className="text-sm">
+                      Those diagrams are simplified. Electrons exist in probability clouds called
+                      orbitals &mdash; you can never know exactly where one is, only where it&apos;s
+                      likely to be.
+                    </p>
+                  </div>
+                </div>
+                <div className="max-w-[80%] rounded-[16px] bg-muted px-4 py-3">
+                  <div className="mb-1 text-xs font-medium text-muted-foreground">AI Student</div>
+                  <p className="text-sm text-card-foreground">
+                    Probability clouds? So they&apos;re not in a fixed orbit at all? That changes
+                    everything I thought I knew&hellip;
+                  </p>
+                </div>
+              </div>
+              <aside className="hidden w-48 flex-col gap-2 border-l border-border pl-4 sm:flex">
+                <div className="text-xs font-semibold text-card-foreground">Misconceptions</div>
+                <div className="flex items-center gap-2 rounded-[16px] border border-success/30 bg-success/5 p-2">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-success text-xs font-bold text-white">
+                    {"\u2713"}
+                  </span>
+                  <span className="text-xs text-muted-foreground">Planetary orbit</span>
+                </div>
+                <div className="flex items-center gap-2 rounded-[16px] border border-border p-2">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-xs font-bold text-white">
+                    !
+                  </span>
+                  <span className="text-xs text-muted-foreground">Speed = current</span>
+                </div>
+                <div className="flex items-center gap-2 rounded-[16px] border border-border p-2">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-xs font-bold text-white">
+                    !
+                  </span>
+                  <span className="text-xs text-muted-foreground">Nucleus is source</span>
+                </div>
+              </aside>
+            </div>
+          </div>
+          <p className="mt-3 text-center text-xs text-muted-foreground">
+            A real interaction &mdash; the AI student pushes back, you correct it, badges flip.
+          </p>
         </div>
 
         {/* Concept picker */}
@@ -58,10 +153,12 @@ export default function Home() {
               <Link
                 key={concept.id}
                 href={`/teach/${concept.id}`}
-                className="group flex flex-col gap-3 rounded-[16px] border border-border bg-card p-5 transition-all hover:border-foreground/20 hover:shadow-[0_2px_4px_0_rgba(0,0,0,0.04)]"
+                className="group flex flex-col gap-3 rounded-[16px] border border-border bg-card p-5 transition-all hover:border-foreground/20 hover:shadow-[0_2px_4px_0_rgba(0,0,0,0.04)] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               >
                 <div className="flex items-start justify-between">
-                  <span className="text-2xl">{iconMap[concept.icon] ?? "\uD83D\uDCDA"}</span>
+                  <span className="text-2xl" aria-hidden="true">
+                    {iconMap[concept.icon] ?? "\uD83D\uDCDA"}
+                  </span>
                   <span className="rounded-[4px] bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
                     {concept.category}
                   </span>
