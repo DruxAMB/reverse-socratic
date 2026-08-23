@@ -1,49 +1,42 @@
 @import "tailwindcss";
 
-/* Style system: Mintlify (https://styles.refero.design/style/80d7ef36-ed7e-48bb-b558-f772eb40106f)
-   Faithfully applied — monochrome discipline, one green accent, square geometry.
-   Values are exact from the DESIGN.md spec, not approximations. */
+/* Style system: adapted from Duolingo (styles.refero.design)
+   Playful classroom on white paper. Saturated green = "correct answer."
+   Chunky 12px radii, 2px sticker-like borders, rounded geometric type.
+   Accents shifted from Duolingo's exact values to avoid a pixel-faithful clone. */
 
 :root {
-  /* Neutrals — exact Mintlify values */
-  --background: #ffffff;          /* Paper White — page canvas */
-  --foreground: #000000;          /* True Black — body text */
-  --card: #ffffff;                /* Paper White — card surfaces */
-  --card-foreground: #08090a;     /* Ink Black — headings on cards */
-  --muted: #f2f2f2;               /* Mist Gray — subtle dividers, low-emphasis bg */
-  --muted-foreground: #6e6a69;    /* derived from Mist Gray for readable secondary text */
-  --border: #dddddd;              /* Cloud Gray — input borders, card hover outlines */
-  --input: #dddddd;               /* Cloud Gray — input borders */
-  --ring: #0c8c5e;                /* Mint Green — focus ring */
+  /* Neutrals — Duolingo-derived */
+  --background: #ffffff;
+  --foreground: #4b4b4b;
+  --card: #ffffff;
+  --card-foreground: #4b4b4b;
+  --muted: #f7f7f7;
+  --muted-foreground: #777777;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #1cb0f6;
 
-  /* Accent — exact Mint Green, used sparingly */
-  --primary: #08090a;             /* Ink Black — filled button background */
-  --primary-foreground: #ffffff;  /* Paper White — button text on dark fills */
-  --secondary: #f2f2f2;           /* Mist Gray — secondary surfaces */
-  --secondary-foreground: #08090a;
-  --accent: #0c8c5e;              /* Mint Green — the only chromatic accent */
+  /* Accent — shifted from Duolingo #58cc02 to #5cc700 for distinction */
+  --primary: #5cc700;
+  --primary-foreground: #ffffff;
+  --secondary: #f7f7f7;
+  --secondary-foreground: #4b4b4b;
+  --accent: #1cb0f6;
   --accent-foreground: #ffffff;
 
-  /* State feedback only (skill rule: --destructive, --success for state, not accent) */
-  --destructive: #dc2626;         /* red for misconception/unresolved state only */
+  /* State colors — red shifted from Duolingo's wrong-answer red */
+  --destructive: #ff4757;
   --destructive-foreground: #ffffff;
-  --success: #0c8c5e;             /* Mint Green — corrected state IS the accent */
+  --success: #5cc700;
   --success-foreground: #ffffff;
 
-  /* Shape — square system, exact from spec */
-  --radius: 4px;                  /* tags, inputs, buttons */
-  --radius-card: 16px;            /* cards */
-  --radius-large: 24px;           /* large containers */
+  /* Shape — chunky, sticker-like */
+  --radius: 12px;
+  --radius-card: 16px;
 
-  /* Elevation — whispered shadows, exact from spec */
-  --shadow-button: 0px 2px 4px 0px rgba(0, 0, 0, 0.03);
-  --shadow-card: 0px 2px 4px 0px rgba(0, 0, 0, 0.05);
-
-  /* Layout — exact from spec */
-  --max-width: 1200px;
-  --section-gap: 80px;
-  --card-padding: 24px;
-  --element-gap: 12px;
+  /* Borders — 2px is the Duolingo signature */
+  --border-width: 2px;
 }
 
 @theme inline {
@@ -66,24 +59,17 @@
   --color-destructive-foreground: var(--destructive-foreground);
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-inter);
-  --radius-sm: 4px;
-  --radius-md: 4px;
+  --font-sans: var(--font-nunito), system-ui, sans-serif;
+  --radius-sm: 12px;
+  --radius-md: 12px;
   --radius-lg: 16px;
-  --radius-xl: 24px;
-}
-
-/* Force light theme — Mintlify: "no page background other than white" */
-:root {
-  color-scheme: light;
+  --radius-xl: 16px;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
-  font-feature-settings: "ss01" on, "cv11" on;
+  font-family: var(--font-nunito), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -102,12 +88,4 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-}
-
-/* Hero reveal — initial state for server-rendered HTML.
-   GSAP animates from this to opacity:1, y:0.
-   If JS fails or is disabled, noscript fallback below restores visibility. */
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(24px);
 }
