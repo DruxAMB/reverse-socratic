@@ -165,14 +165,17 @@ export default function Home() {
                   key={concept.id}
                   data-picker-item
                   href={`/teach/${concept.id}`}
-                  className="group flex flex-col gap-3 rounded-[16px] border-2 border-border bg-card p-5 transition-all hover:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:translate-y-0.5"
+                  className="group relative flex flex-col gap-3 overflow-visible rounded-[16px] border-2 border-border bg-card p-5 pt-8 transition-all hover:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:translate-y-0.5"
                 >
-                  <div className="flex items-start justify-between">
-                    <AnimatedConceptIcon name={concept.icon as typeof iconNames[number]} size={48} />
-                    <span className="rounded-[12px] border-2 border-border bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground">
-                      {concept.category}
-                    </span>
+                  <div className="absolute -top-6 -right-3 h-24 w-24">
+                    <AnimatedConceptIcon
+                      name={concept.icon as typeof iconNames[number]}
+                      size={96}
+                    />
                   </div>
+                  <span className="w-fit rounded-[12px] border-2 border-border bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground">
+                    {concept.category}
+                  </span>
                   <div>
                     <h3 className="text-lg font-bold text-card-foreground">{concept.title}</h3>
                     <p className="mt-1 text-sm text-muted-foreground">{concept.subtitle}</p>
