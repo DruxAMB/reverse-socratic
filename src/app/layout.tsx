@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: "Reverse Socratic — Learn by teaching an AI",
     description:
       "The AI plays a confused student with real misconceptions. Your job? Teach it well enough to fix what it gets wrong.",
-    url: "https://reverse-socratic.vercel.app",
+    url: "https://reverse-socratic.druxamb.dev",
     siteName: "Reverse Socratic",
     type: "website",
   },

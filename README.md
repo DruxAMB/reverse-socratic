@@ -99,7 +99,7 @@ Each concept has 2-3 carefully researched misconceptions drawn from science educ
 
 ## Demo
 
-Try it live: **[https://reverse-socratic.vercel.app](https://reverse-socratic.vercel.app)**
+Try it live: **[https://reverse-socratic.druxamb.dev](https://reverse-socratic.druxamb.dev)**
 
 ## Built for
 
