@@ -113,7 +113,7 @@ export default function Home() {
               onClick={handleTryDemo}
               className="rounded-[12px] border-2 border-primary bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-all hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:translate-y-0.5"
             >
-              Try the demo &rarr;
+              Start teaching &rarr;
             </button>
             <a
               href="https://github.com/DruxAMB/reverse-socratic"
