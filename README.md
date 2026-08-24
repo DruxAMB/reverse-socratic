@@ -26,10 +26,23 @@ Both agents use Google's Gemini 3.6 Flash model via the Generative Language API.
 ## Tech stack
 
 - **Next.js 16** (App Router, TypeScript, Turbopack)
-- **Tailwind CSS v4** with a semantic token system adapted from the [Mintlify design system](https://styles.refero.design/style/80d7ef36-ed7e-48bb-b558-f772eb40106f)
+- **Tailwind CSS v4** with a semantic token system adapted from the [Duolingo design system](https://styles.refero.design/style/7088d695-362b-4e09-b325-fa8136d4f350)
 - **Google Gemini 3.6 Flash** for both AI agents
+- **GSAP** for hero animations and animated concept icons
+- **Thinking Orbs** (`thinking-orbs`) for AI agent status indicators
 - **Vercel** for deployment
 - No database, no auth — the app is stateless and session-based
+
+## Design
+
+The visual system is adapted from [Duolingo's design language](https://styles.refero.design/style/7088d695-362b-4e09-b325-fa8136d4f350) via Refero Styles:
+
+- **Nunito** font (rounded geometric sans, open via Google Fonts)
+- Saturated green accent (#5cc700) — reads as "correct answer," maps to the misconception badge mechanic
+- 12px border radius on buttons/inputs, 16px on cards
+- 2px borders on all interactive elements (sticker-like feel)
+- Animated SVG concept icons (GSAP-powered): lightning bolt, leaf, DNA helix, wind/cloud, sun
+- Thinking Orbs on AI messages: "working" while streaming, "breathing" when idle, "searching" while thinking, "listening" when user types, "solving" during evaluation
 
 ## Getting started
 
@@ -61,10 +74,12 @@ src/
 │   │   └── evaluate/route.ts      # JSON structured-output endpoint for the evaluator
 │   ├── teach/[conceptId]/
 │   │   ├── page.tsx               # Server component — loads concept, renders teaching view
-│   │   └── teaching-view.tsx      # Client component — chat UI, badges, results modal
-│   ├── globals.css                # Semantic token layer (Mintlify-derived)
-│   ├── layout.tsx                 # Root layout, fonts, metadata
-│   └── page.tsx                   # Landing page with concept picker
+│   │   └── teaching-view.tsx      # Client component — chat UI, orbs, badges, results modal
+│   ├── globals.css                # Semantic token layer (Duolingo-derived)
+│   ├── layout.tsx                 # Root layout, Nunito font, metadata
+│   └── page.tsx                   # Landing page with hero + animated concept picker
+├── components/
+│   └── animated-concept-icon.tsx  # GSAP-animated SVG icons (bolt, leaf, dna, sky, sun)
 ├── lib/
 │   ├── concepts.ts                # Seed data: 5 concepts with 15 misconceptions
 │   └── gemini.ts                  # Gemini client, system prompts, streaming, evaluation
@@ -97,12 +112,15 @@ MIT — see [LICENSE](LICENSE)
 ## Third-party licences
 
 - **GSAP** (`gsap`, `@gsap/react`) — GreenSock standard "no charge" licence. Free for commercial use including all formerly Club-only plugins (SplitText, ScrollTrigger, etc.). Not MIT; the GSAP licence covers the library, not this project's source.
+- **Thinking Orbs** (`thinking-orbs`) — MIT
 - **Next.js** — MIT
 - **Tailwind CSS** — MIT
 - **React** — MIT
+- **Nunito** (Google Fonts) — SIL Open Font License
 
 ## Acknowledgments
 
-- Design system adapted from [Mintlify](https://styles.refero.design/style/80d7ef36-ed7e-48bb-b558-f772eb40106f) via Refero Styles
+- Design system adapted from [Duolingo](https://styles.refero.design/style/7088d695-362b-4e09-b325-fa8136d4f350) via Refero Styles
+- AI status indicators by [Thinking Orbs](https://orbs.jakubantalik.com/) by Jakub Antalik
 - AI powered by [Google Gemini](https://ai.google.dev/)
 - Built with [Next.js](https://nextjs.org/) and deployed on [Vercel](https://vercel.com/)
