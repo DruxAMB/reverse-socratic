@@ -169,7 +169,7 @@ export async function* streamGeminiChat(
     contents,
     generationConfig: {
       temperature: 0.8,
-      maxOutputTokens: 300,
+      maxOutputTokens: 500,
     },
   };
 
