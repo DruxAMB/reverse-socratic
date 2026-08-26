@@ -168,7 +168,7 @@ export async function* streamGeminiChat(
     },
     contents,
     generationConfig: {
-      temperature: 0.8,
+      temperature: 0.6,
       maxOutputTokens: 500,
     },
   };
@@ -200,6 +200,7 @@ export async function* streamGeminiChat(
 
   const decoder = new TextDecoder();
   let buffer = "";
+  let wasTruncated = false;
 
   while (true) {
     const { done, value } = await reader.read();
@@ -217,11 +218,22 @@ export async function* streamGeminiChat(
           const parsed = JSON.parse(data);
           const text = parsed?.candidates?.[0]?.content?.parts?.[0]?.text;
           if (text) yield text;
+          // Check if the generation was cut off by the token limit
+          const finishReason = parsed?.candidates?.[0]?.finishReason;
+          if (finishReason === "MAX_TOKENS") {
+            wasTruncated = true;
+          }
         } catch {
           // Skip malformed chunks
         }
       }
     }
+  }
+
+  // If the response was cut off by the token limit, append an ellipsis
+  // so the UI shows a graceful truncation rather than a mid-sentence cutoff
+  if (wasTruncated) {
+    yield "\u2026";
   }
 }
 
