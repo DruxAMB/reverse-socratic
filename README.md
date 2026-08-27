@@ -2,6 +2,8 @@
 
 > Learn by teaching an AI that's wrong on purpose.
 
+![Reverse Socratic](public/hero-shot.png)
+
 Reverse Socratic flips the AI tutor on its head. Instead of the AI teaching you, **you teach the AI** — but the AI plays a confused student who holds real, documented misconceptions. Your job is to explain the concept well enough to correct those wrong beliefs. An evaluator agent then scores your teaching.
 
 ## Why this works
